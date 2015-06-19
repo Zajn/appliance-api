@@ -17,3 +17,4 @@
 
 # For coverage analysis
 coverage
+/.ruby-version
