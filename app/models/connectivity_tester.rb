@@ -15,7 +15,6 @@ class ConnectivityTester
   def ping
     results = []
     EM.run do
-
       foreach = proc do |target, iter|
         resp = EM::Protocols::TcpConnectTester.test(target[:address],
                                                     Target::PORT_NUMBER)
@@ -43,10 +42,10 @@ class ConnectivityTester
         EM.stop_event_loop
       end
 
-      # Concurrency value of 160 seemed to be the limit for my machine
-      # before too many file descriptors were opened. OSX defaults to
-      # a max of 256 open file descriptors.
-      EM::Iterator.new(self.targets, 160).map(foreach, after)
+      # Using numbers over 900 for concurrency value seem to crash
+      # the ruby interpreter. 900 so far has been the best value
+      # to use for a good combination of stability and speed in my testing.
+      EM::Iterator.new(self.targets, 900).map(foreach, after)
     end
 
     results
