@@ -16,16 +16,16 @@ describe Target, :type => :model do
   end
 
   describe '#connectivity_status' do
-    it 'returns "Online" for reachable targets' do
+    it 'returns "Reachable" for reachable targets' do
       target = Target.new(hostname: 'foo', address: '8.8.8.8', appliance: appliance)
       target.reachable = true
-      expect(target.connectivity_status).to eq('Online')
+      expect(target.connectivity_status).to eq('Reachable')
     end
 
-    it 'returns "Offline" for unreachable targets' do
+    it 'returns "Unreachable" for unreachable targets' do
       target = Target.new(hostname: 'foo', address: '8.8.8.8', appliance: appliance)
       target.reachable = false
-      expect(target.connectivity_status).to eq('Offline')
+      expect(target.connectivity_status).to eq('Unreachable')
     end
   end
 end

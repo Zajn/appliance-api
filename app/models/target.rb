@@ -11,10 +11,7 @@ class Target < ActiveRecord::Base
 
   attr_accessor :reachable
 
-  # Assume these web apps are running on default rails port, 3000
-  PORT_NUMBER = 3000
-
   def connectivity_status
-    reachable ? 'Online' : 'Offline'
+    reachable ? 'Reachable' : 'Unreachable'
   end
 end
