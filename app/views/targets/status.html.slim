@@ -1,16 +1,40 @@
-table
-  thead
-    tr
-      th Appliance Name
-      th Appliance Customer
-      th Target Host
-      th Target Address
-      th Status
-  tbody
-    - @results.each do |target|
-      tr(id = "target-#{target.id}")
-        td = target.appliance.name
-        td = target.appliance.customer
-        td = target.hostname
-        td = target.address
-        td = target.connectivity_status
+div class='row-fluid'
+  div class='col-md-10 col-md-offset-1'
+    h1 Target Connectivity Report
+    ul class="nav nav-tabs"
+      li class="nav active"
+        a href="#report" data-toggle="tab" Report
+
+      li class="nav"
+        a href="#chart" data-toggle="tab" Chart
+
+    div class="tab-content"
+      div class="tab-pane active" id="report"
+        table
+          thead
+            tr
+              th Appliance Name
+              th Appliance Customer
+              th Target Host
+              th Target Address
+              th Status
+          tbody
+            - @appliances.each do |appliance|
+              tr(class = cycle('even', 'odd'))
+                td = appliance.name
+                td = appliance.customer
+                td
+                  - appliance.targets.each do |target|
+                    = target.hostname
+                    br
+                td
+                  - appliance.targets.each do |target|
+                    = target.address
+                    br
+                td
+                  - appliance.targets.each do |target|
+                    = target.connectivity_status
+                    br
+
+      div class="tab-pane" id="chart"
+        = render partial: 'chart', locals: { chart_data: @chart_data }

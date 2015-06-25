@@ -1,0 +1,5 @@
+div
+  p Total Targets: #{chart_data[:count]}
+  p Reachable Targets: #{chart_data[:reachable]}
+  p Unreachable Targets: #{chart_data[:unreachable]}
+div = doughnut_chart(chart_data[:chartjs_data], { width: 200, height: 200 })
