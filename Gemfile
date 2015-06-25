@@ -13,7 +13,8 @@ gem 'slim-rails'
 gem 'secure_headers'
 gem 'ffaker'
 gem 'timecop'
-gem 'net-ping'
+gem 'eventmachine'
+gem 'chartjs-ror'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0.beta'
