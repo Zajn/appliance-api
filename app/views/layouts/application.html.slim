@@ -7,11 +7,11 @@ html
     = csrf_meta_tags
 
   body
-    header(id = 'flx-header')
-      div(class = 'wrapper')
-        div(class = 'row-fluid')
-          div(class = 'span12 clearfix')
-            div(id = 'logo-image')
+    header#flx-header
+      div.wrapper
+        div.row-fluid
+          div.span12.clearfix
+            div#logo-image
               img(src = asset_path('logo.png') height='72' width='255')
-    div class='container-fluid'
+    div.container-fluid
       == yield
