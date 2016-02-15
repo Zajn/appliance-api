@@ -20,21 +20,18 @@ div class='row-fluid'
               th Status
           tbody
             - @appliances.each do |appliance|
-              tr(class = cycle('even', 'odd'))
+              tr
                 td = appliance.name
                 td = appliance.customer
                 td
                   - appliance.targets.each do |target|
-                    = target.hostname
-                    br
+                    div = target.hostname
                 td
                   - appliance.targets.each do |target|
-                    = target.address
-                    br
+                    div = target.address
                 td
                   - appliance.targets.each do |target|
-                    = target.connectivity_status
-                    br
+                    div = target.connectivity_status
 
       div class="tab-pane" id="chart"
         = render partial: 'chart', locals: { chart_data: @chart_data }
