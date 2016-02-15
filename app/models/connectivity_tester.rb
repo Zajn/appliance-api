@@ -7,9 +7,9 @@ class ConnectivityTester
   # Assume these web apps are running on default rails port, 3000
   DEFAULT_PORT_NUMBER = 3000
 
-  def initialize(targets, custom_port=nil)
+  def initialize(targets, custom_port = DEFAULT_PORT_NUMBER)
     self.targets = targets
-    self.port = custom_port || DEFAULT_PORT_NUMBER
+    self.port = custom_port
   end
 
   # Uses `targets` attribute and tries to open a TCP connection on each Target
@@ -22,7 +22,7 @@ class ConnectivityTester
       # Using numbers over 800 for the concurrency value seems to crash
       # the ruby interpreter eventually. 800 so far has been the best value
       # to use for a good combination of stability and speed in my testing.
-      EM::Iterator.new(self.targets, 800).map(foreach, after)
+      EM::Iterator.new(self.targets, 800).map(test_connection, update_results)
     end
 
     @results
@@ -35,7 +35,7 @@ class ConnectivityTester
   # if no response is received in 500ms, and set the Target's reachable
   # attribute to false. If a response is received, the Target's reachable
   # attribute is set to true.
-  def foreach
+  def test_connection
     proc do |target, iter|
       resp = EM::Protocols::TcpConnectTester.test(target[:address], @port)
       resp.callback do |_|
@@ -57,9 +57,9 @@ class ConnectivityTester
   end
 
   # Returns a Proc that sets the current ConnectivityTester's results
-  # attribute to the results from the `foreach` method above.
+  # attribute to the results from the `test_connection` method above.
   # The EventMachine event loop is also stopped here.
-  def after
+  def update_results
     proc do |result|
       @results = result
       EM.stop_event_loop

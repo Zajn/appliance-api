@@ -11,24 +11,21 @@ describe ConnectivityTester, type: :model do
 
   describe '#ping' do
 
-    server = nil
-    before(:all) do
+    around(:each) do |example|
       server = TCPServer.open(9999)
-    end
-
-    after(:all) do
+      example.run
       server.close
     end
 
     it 'sets reachable to true for a reachable host' do
-      uut = ConnectivityTester.new([target_1], '9999')
-      uut.ping
+      connection_tester = ConnectivityTester.new([target_1], '9999')
+      connection_tester.ping
       expect(target_1.reachable).to be(true)
     end
 
     it 'sets reachable to false for a non-reachable host' do
-      uut = ConnectivityTester.new([target_2])
-      uut.ping
+      connection_tester = ConnectivityTester.new([target_2])
+      connection_tester.ping
       expect(target_2.reachable).to be(false)
     end
   end
