@@ -8,8 +8,8 @@ class TargetsController < ApplicationController
 
     # TODO: Separate the rest of this out into a chart creation class
     count = targets.count
-    reachable = targets.select(&:reachable).count
-    unreachable = targets.count - reachable
+    reachable = targets.count(&:reachable)
+    unreachable = count - reachable
     chartjs_data = [
       { value: unreachable, color: '#F7464A', highlight: '#FF5A5E', label: 'Offline' },
       { value: reachable, color: '#46BFBD', highlight: '#5AD3D1', label: 'Online ' }
